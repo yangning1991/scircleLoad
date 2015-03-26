@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>circle loading</title>
+	<style>
+		.cricle{
+			width:200px;height:200px;background:#0cc;
+			border-radius:50%;position:absolute;
+		}
+		.pre_left, .pre_right {
+    		width: 200px; 
+    		height: 200px;
+    		position: absolute;
+    		top: 0;left: 0;
+		}
+		.left,.right{
+			display:block;
+			width:200px;height:200px;background:#00aacc;
+			position:absolute;top:0;left:0;border-radius:50%;
+		}
+		.pre_right, .right {
+    		clip:rect(0,auto,auto,100px);
+		}
+		.pre_left, .left {
+    		clip:rect(0,100px,auto,0);
+		}
+		.mask{
+			width:150px;height:150px;background:#fff;border-radius:50%;
+			position:absolute;top:25px;left:25px;
+			line-height:150px;text-align:center;color:#00aacc;font-size:30px;
+		}
+
+	</style>
+</head>
+<body>
+		<div class="cricle">
+			<div class="pre_left"><div class="left"></div></div>
+			<div class="pre_right"><div class="right"></div></div>
+			<div class="mask"><span>0</span>%</div>
+		</div>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script>
+			function criclefn(num){
+				var degree=num*3.6;
+				if(degree>360) degree=360;
+				if(degree<0) degree=0;
+				
+				$({property:0}).animate({property:100},
+					{
+						duration:600,
+						step:function(){
+							var deg=this.property/100*degree;
+							var percent=parseInt(this.property/100*num)+1;
+							if (deg<=180) {
+								$(".right").css("-webkit-transform","rotate("+deg+"deg)");
+								$(".mask span").text(percent);
+							}else{
+								$(".cricle").css("background-color","orange");
+								$(".mask").css("color","orange");
+								deg=deg-180;
+								$(".right").css("-webkit-transform","rotate("+180+"deg)");
+								$(".left").css("-webkit-transform","rotate("+deg+"deg)");
+								$(".mask span").text(percent);
+							}				
+						}
+				});
+
+
+			}
+			$(function($){
+				criclefn(70);
+
+			});
+		</script>
+</body>
+</html>
